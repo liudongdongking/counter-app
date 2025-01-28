@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Increment Button</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #000000;
+            color: white;
+            flex-direction: column;
+        }
+        .container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        input {
+            width: 200px;
+            font-size: 24px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .button-container {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+        }
+        .increment {
+            background-color: #4CAF50;
+            color: white;
+        }
+        .increment:hover {
+            background-color: #45a049;
+        }
+        .decrement {
+            background-color: #f44336;
+            color: white;
+        }
+        .decrement:hover {
+            background-color: #e53935;
+        }
+        .reset {
+            background-color: #2196F3;
+            color: white;
+        }
+        .reset:hover {
+            background-color: #1976D2;
+        }
+        .undo {
+            background-color: #FFC107;
+            color: black;
+        }
+        .undo:hover {
+            background-color: #FFB300;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <input type="number" id="counter" value="0" min="0" max="999" oninput="updateFromInput()">
+        <div class="button-container">
+            <button class="increment" onclick="incrementCounter()">Increase</button>
+            <button class="decrement" onclick="decrementCounter()">Decrease</button>
+            <button class="reset" onclick="resetCounter()">Reset</button>
+            <button class="undo" onclick="undoCounter()">Undo</button>
+        </div>
+    </div>
+
+    <script>
+        let count = 0;
+        let history = [];
+
+        function incrementCounter() {
+            saveToHistory();
+            count++;
+            updateCounter();
+        }
+
+        function decrementCounter() {
+            if (count > 0) {
+                saveToHistory();
+                count--;
+                updateCounter();
+            }
+        }
+
+        function resetCounter() {
+            saveToHistory();
+            count = 0;
+            updateCounter();
+        }
+
+        function undoCounter() {
+            if (history.length > 0) {
+                count = history.pop();
+                updateCounter();
+            }
+        }
+
+        function saveToHistory() {
+            history.push(count);
+            if (history.length > 6) {
+                history.shift();
+            }
+        }
+
+        function updateCounter() {
+            document.getElementById('counter').value = count;
+        }
+
+        function updateFromInput() {
+            let inputElement = document.getElementById('counter');
+            let value = inputElement.value.trim();
+            if (value === "") {
+                count = 0;
+            } else {
+                let parsedValue = parseInt(value);
+                if (!isNaN(parsedValue) && parsedValue >= 0 && parsedValue <= 999) {
+                    saveToHistory();
+                    count = parsedValue;
+                } else {
+                    inputElement.value = count;
+                }
+            }
+            updateCounter();
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'ArrowLeft') {
+                incrementCounter();
+            } else if (event.key === 'ArrowRight') {
+                decrementCounter();
+            } else if (event.key === '0') {
+                resetCounter();
+            } else if (event.key === 'z' && (event.ctrlKey || event.metaKey)) {
+                undoCounter();
+            }
+        });
+    </script>
+</body>
+</html>
