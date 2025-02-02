@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>DOM 实战示例</title>
+    <style>
+        /* 内联样式 */
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: black;
+            color: #f5f5f5;
+
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 20px;
+        }
+
+        li {
+            margin: 5px 0;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>动态列表示例</h1>
+    <ul id="list">
+        <li>第一个项目</li>
+    </ul>
+
+    <button id="addButton">添加项目</button>
+
+    <script>
+        // JavaScript 逻辑直接内联
+        const button = document.getElementById("addButton");
+        const list = document.getElementById("list");
+        // 这段代码的主要功能是从DOM中获取两个特定的元素：一个ID为addButton的按钮元素，和一个ID为lis
+        // t的无序列表元素。通过获取这些元素的引用，后续的JavaScript代码可以与它们进行交互，比如添加事
+        // 件监听器来响应用户的点击操作。在这个完整的示例中，按钮被设置为当用户点击时，会在列表中添加一个新的列表项。
+
+        button.addEventListener("click", () => {
+            const newItem = document.createElement("li");
+            newItem.textContent = "新的列表项好的";
+            list.appendChild(newItem);
+            // 	1.	用户点击按钮：按钮上的 "click" 事件被触发。JavaScript 执行箭头函数中的代码。创建新列表项：
+            // •	使用 document.createElement("li") 创建一个新的 <li> 节点。
+            // •	设置其文本内容为 "新的列表项"。
+            // 3.	将列表项添加到页面：使用 appendChild 方法将新列表项插入到 <ul> 列表的末尾。
+        });
+    </script>
+</body>
+
+</html>
